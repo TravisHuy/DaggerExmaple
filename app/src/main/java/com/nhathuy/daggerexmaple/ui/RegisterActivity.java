@@ -1,15 +1,17 @@
 package com.nhathuy.daggerexmaple.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.nhathuy.daggerexmaple.R;
+import com.nhathuy.daggerexmaple.BaseApplicationApp;
 import com.nhathuy.daggerexmaple.databinding.ActivityRegisterBinding;
 import com.nhathuy.daggerexmaple.model.User;
 import com.nhathuy.daggerexmaple.viewmodel.AuthViewModel;
+import com.nhathuy.daggerexmaple.viewmodel.ViewModelFactory;
 
 import javax.inject.Inject;
 
@@ -17,12 +19,16 @@ public class RegisterActivity extends AppCompatActivity {
     private ActivityRegisterBinding binding;
 
     @Inject
-   AuthViewModel authViewModel;
+    AuthViewModel authViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding=ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        ViewModelFactory viewModelFactory = ((BaseApplicationApp) getApplication())
+                .getAppComponent().viewModelFactory();
+        authViewModel=new ViewModelProvider(this,viewModelFactory).get(AuthViewModel.class);
 
         binding.login.setOnClickListener(v-> startActivity(new Intent(RegisterActivity.this,LoginActivity.class)));
 
