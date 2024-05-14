@@ -10,25 +10,25 @@ import android.view.View;
 import com.nhathuy.daggerexmaple.BaseApplicationApp;
 import com.nhathuy.daggerexmaple.databinding.ActivityRegisterBinding;
 import com.nhathuy.daggerexmaple.model.User;
-import com.nhathuy.daggerexmaple.viewmodel.AuthViewModel;
-import com.nhathuy.daggerexmaple.viewmodel.ViewModelFactory;
+import com.nhathuy.daggerexmaple.viewmodel.UserViewModel;
 
 import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 
 public class RegisterActivity extends AppCompatActivity {
     private ActivityRegisterBinding binding;
 
     @Inject
-    AuthViewModel authViewModel;
-    @Override
+    ViewModelProvider.Factory viewModelFactory;
+    private UserViewModel userViewModel;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding=ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        ViewModelFactory viewModelFactory = ((BaseApplicationApp) getApplication())
-                .getAppComponent().viewModelFactory();
-        authViewModel=new ViewModelProvider(this,viewModelFactory).get(AuthViewModel.class);
+        AndroidInjection.inject(this);
+        userViewModel = new ViewModelProvider(this, viewModelFactory).get(UserViewModel.class);
 
         binding.login.setOnClickListener(v-> startActivity(new Intent(RegisterActivity.this,LoginActivity.class)));
 
@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
                 user.setEmail(email);
                 user.setUsername(username);
                 user.setPassword(password);
-                authViewModel.register(user);
+                userViewModel.register(user);
             }
         });
     }

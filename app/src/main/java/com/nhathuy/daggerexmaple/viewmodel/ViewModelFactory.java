@@ -1,6 +1,5 @@
 package com.nhathuy.daggerexmaple.viewmodel;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -8,8 +7,11 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+import javax.inject.Singleton;
 
+@Singleton
 public class ViewModelFactory implements ViewModelProvider.Factory {
+
     private final Map<Class<? extends ViewModel>, Provider<ViewModel>> creators;
 
     @Inject
@@ -17,10 +19,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         this.creators = creators;
     }
 
-    @SuppressWarnings("unchecked")
-    @NonNull
     @Override
-    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+    public <T extends ViewModel> T create(Class<T> modelClass) {
         Provider<? extends ViewModel> creator = creators.get(modelClass);
         if (creator == null) {
             for (Map.Entry<Class<? extends ViewModel>, Provider<ViewModel>> entry : creators.entrySet()) {
@@ -31,7 +31,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             }
         }
         if (creator == null) {
-            throw new IllegalArgumentException("unknown model class " + modelClass);
+            throw new IllegalArgumentException("Unknown model class " + modelClass);
         }
         try {
             return (T) creator.get();

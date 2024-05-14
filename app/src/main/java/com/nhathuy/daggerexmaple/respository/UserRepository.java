@@ -1,22 +1,22 @@
-package com.nhathuy.daggerexmaple.viewmodel;
+package com.nhathuy.daggerexmaple.respository;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
+
 import com.nhathuy.daggerexmaple.dao.UserDao;
 import com.nhathuy.daggerexmaple.model.User;
 
 import javax.inject.Inject;
 
-public class AuthViewModel extends ViewModel {
+public class UserRepository {
     private UserDao userDao;
 
     @Inject
-    public AuthViewModel(UserDao userDao){
+    public UserRepository(UserDao userDao){
         this.userDao=userDao;
     }
 
-    public LiveData<User> login(String email, String password){
-        return userDao.login(email,password);
+    public User login(String email,String password){
+        return userDao.login(email,password).getValue();
     }
     public void register(User user){
         userDao.register(user);

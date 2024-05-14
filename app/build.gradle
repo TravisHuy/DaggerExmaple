@@ -45,11 +45,13 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    
 
     implementation 'com.google.dagger:dagger:2.45'
     implementation 'com.google.dagger:dagger-android:2.45'
-    implementation 'com.google.dagger:dagger-android-support:2.45' // if you use the support libraries
+    implementation 'com.google.dagger:dagger-android-support:2.45' // if you use Android support libraries
     annotationProcessor 'com.google.dagger:dagger-compiler:2.45'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.45'
 
     def room_version = "2.4.0"
     implementation "androidx.room:room-runtime:$room_version"

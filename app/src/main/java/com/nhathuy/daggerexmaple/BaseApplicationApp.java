@@ -4,26 +4,22 @@ import android.app.Application;
 
 import com.nhathuy.daggerexmaple.component.AppComponent;
 import com.nhathuy.daggerexmaple.component.DaggerAppComponent;
-import com.nhathuy.daggerexmaple.module.AppModule;
-import com.nhathuy.daggerexmaple.module.RoomModule;
-import com.nhathuy.daggerexmaple.viewmodel.ViewModelModule;
+//import com.nhathuy.daggerexmaple.component.DaggerAppComponent;
 
-public class BaseApplicationApp extends Application{
-    private AppComponent appComponent;
+import dagger.android.AndroidInjector;
+import dagger.android.DaggerApplication;
+//import com.nhathuy.daggerexmaple.component.DaggerAppComponent;
+
+
+public class BaseApplicationApp extends DaggerApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-//
-        appComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
-                .roomModule(new RoomModule(this))
-
-                .build();
-
     }
-    //cung cấp appcompent để truy cập từ activity và fragment
 
-    public AppComponent getAppComponent() {
-        return appComponent;
+    @Override
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        return DaggerAppComponent.builder().application(this).build();
     }
+
 }
